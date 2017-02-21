@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        table {
+            width: 800px;
+            border-collapse: collapse;
+        }
+        
+        td {
+            height: 40px;
+            text-align: center;
+            border: 1px solid #CCC;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <td>小米</td>
+            <td>39</td>
+            <td>男</td>
+        </tr>
+    </table>
+
+    <input type="button" value="获取数据">
+  <script>
+        //   获取到按钮
+        var btn= document.querySelector('input');
+        // 给按钮添加点击事件
+        btn.onclick=function(){
+        // 实现ajax编程
+            var xhr= new XMLHttpRequest();
+            xhr.open('post','test.php');
+            xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            xhr.send(null);
+            xhr.onreadystatechange=function(){
+                     if(xhr.readyState==4&&xhr.status==200){
+                        // 定义一个变量来存XML文件内容
+                        var result= xhr.responseXML;
+                        // console.log(result);
+                        // 获取最外层的test标签
+                        var test= result.querySelector('test');
+                        // console.log(test);
+                        // 获取到test标签里面的person标签
+                        var person = test.querySelectorAll('person');
+                        // console.log(person);
+                        var html='';
+                        // 获取里面的name,age,sex
+                        for(var i= 0; i<person.length;i++){
+                            // console.log(person[i]);
+                           var name=person[i].querySelector('name');
+                           var age=person[i].querySelector('age');
+                           var sex=person[i].querySelector('sex');
+                            // 取值并显示到页面
+                            html +='<tr>'+
+                                     '<td>'+name.innerHTML+'</td>'+
+                                     '<td>'+age.innerHTML+'</td>'+
+                                     '<td>'+sex.innerHTML+'</td>'+
+                                 '</tr>'
+                           }
+                    
+                        //    将数据展现在页面
+                           document.querySelector('table').innerHTML+=html;
+                     }
+        }
+        }
+  
+  </script>
+
+</body>
+
+</html>
